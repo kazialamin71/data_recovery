@@ -49,7 +49,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem name="Data Correction" id="data_correction_main_menu" parent="leih.leih_billing_menu" action="data_correction_action"/>
+        <menuitem name="Data Correction" id="data_correction_main_menu" parent="leih.leih_billing_menu" groups="data_recovery.group_data_recovery_admin" action="data_correction_action"/>
 
     </data>
 </openerp>

@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_data_recovery,data.correction,model_data_correction,group_data_recovery_admin,1,1,1,1
+access_data_recovery,bill.correction,model_bill_correction,group_data_recovery_admin,1,1,1,1
+
+
+
+
+
+
+

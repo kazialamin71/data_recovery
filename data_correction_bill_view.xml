@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="bill_correction_view" model="ir.ui.view">
+            <field name="name">bill.correction</field>
+            <field name="model">bill.correction</field>
+            <field name="arch" type="xml">
+                <form string="Bill correction">
+                    <header>
+                        <button name="update_bill_line_data" string="Bill Correction" type="object"/>
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="from_adjust_item"/>
+                            <field name="to_adjust_item"/>
+                            <field name="percent"/>
+                            <field name="section"/>
+                            <field name="date"/>
+                            <field name="move_ids"/>
+                            <field name="not_move_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+
+        </record>
+
+        <record model="ir.ui.view" id="bill_correction_tree" >
+            <field name="name">bill.correction.tree</field>
+            <field name="model">bill.correction</field>
+            <field name="arch" type="xml">
+            <tree string="Data Collection List">
+                <field name="start_date"/>
+                            <field name="end_date"/>
+            </tree>
+            </field>
+        </record>
+
+        <record id="bill_correction_action" model="ir.actions.act_window">
+            <field name="name">Data Correction</field>
+            <field name="res_model">bill.correction</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Bill Correction" id="bill_correction_main_menu" parent="leih.leih_billing_menu" groups="data_recovery.group_data_recovery_admin" action="bill_correction_action"/>
+
+    </data>
+</openerp>

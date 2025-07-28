@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="data_correction_opd_view" model="ir.ui.view">
+            <field name="name">data.correction.opd</field>
+            <field name="model">data.correction.opd</field>
+            <field name="arch" type="xml">
+                <form string="data correction">
+                    <header>
+                        <button name="opd_data_correction" string="OPD Data Correction" type="object"/>
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <field name="ticket_names"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+
+        </record>
+
+        <record model="ir.ui.view" id="data_correction_opd_tree" >
+            <field name="name">data.correction.opd.tree</field>
+            <field name="model">data.correction.opd</field>
+            <field name="arch" type="xml">
+            <tree string="Data Collection List">
+                <field name="ticket_names"/>
+
+            </tree>
+            </field>
+        </record>
+
+        <record id="data_correction_opd_action" model="ir.actions.act_window">
+            <field name="name">Data Correction</field>
+            <field name="res_model">data.correction.opd</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Data Correction OPD" id="data_correction_opd_main_menu" parent="leih.leih_billing_menu" groups="data_recovery.group_data_recovery_admin" action="data_correction_opd_action"/>
+
+    </data>
+</openerp>

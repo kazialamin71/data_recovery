@@ -16,6 +16,7 @@
         'data_correction_view.xml',
         'data_correction_bill_view.xml',
         'data_correction_ad_view.xml',
+        'data_correction_opd_view.xml',
         'security/ir.model.access.csv',
 
     ],

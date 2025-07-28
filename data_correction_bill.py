@@ -169,7 +169,10 @@ class bill_correction(osv.osv):
             move_obj = self.pool.get('account.move')
             for move_id in move_ids:
                 move_obj.button_cancel(cr, uid, [move_id], context=context)
-                move_obj.button_validate(cr, uid, [move_id], context=context)
+                try:
+                    move_obj.button_validate(cr, uid, [move_id], context=context)
+                except Exception:
+                    import pdb;pdb.set_trace()
 
             data_obj.move_ids=bill_ids
 

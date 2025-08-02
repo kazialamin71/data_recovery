@@ -51,7 +51,7 @@ class data_correction(osv.osv):
                 WITH daily_counts AS (
                     SELECT date, COUNT(*) AS total_tickets, CEIL(COUNT(*) * 0.3) AS sample_size
                     FROM opd_ticket
-                    WHERE date BETWEEN %s AND %s AND total=300 AND state='confirmed' AND with_doctor_total=0 AND 
+                    WHERE date BETWEEN %s AND %s AND total=300 AND state='confirmed' AND with_doctor_total=0 
                     GROUP BY date
                 ),
                 numbered_tickets AS (

@@ -25,19 +25,19 @@ class data_correction(osv.osv):
         start_date = vals.get('start_date')
         end_date = vals.get('end_date')
 
-        if start_date and end_date:
-            cr.execute("""
-                    SELECT id FROM data_correction
-                    WHERE NOT (%s > end_date OR %s < start_date)
-                    LIMIT 1
-                """, (start_date, end_date))
-            existing = cr.fetchone()
-
-            if existing:
-                raise osv.except_osv(
-                    'Date Range Overlap',
-                    'A record already exists that overlaps with this date range.'
-                )
+        # if start_date and end_date:
+        #     cr.execute("""
+        #             SELECT id FROM data_correction
+        #             WHERE NOT (%s > end_date OR %s < start_date)
+        #             LIMIT 1
+        #         """, (start_date, end_date))
+        #     existing = cr.fetchone()
+        #
+        #     if existing:
+        #         raise osv.except_osv(
+        #             'Date Range Overlap',
+        #             'A record already exists that overlaps with this date range.'
+        #         )
 
         return super(data_correction, self).create(cr, uid, vals, context=context)
 

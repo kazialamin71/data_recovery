@@ -25,19 +25,19 @@ class data_correction(osv.osv):
         start_date = vals.get('start_date')
         end_date = vals.get('end_date')
 
-        # if start_date and end_date:
-        #     cr.execute("""
-        #             SELECT id FROM data_correction
-        #             WHERE NOT (%s > end_date OR %s < start_date)
-        #             LIMIT 1
-        #         """, (start_date, end_date))
-        #     existing = cr.fetchone()
-        #
-        #     if existing:
-        #         raise osv.except_osv(
-        #             'Date Range Overlap',
-        #             'A record already exists that overlaps with this date range.'
-        #         )
+        if start_date and end_date:
+            cr.execute("""
+                    SELECT id FROM data_correction
+                    WHERE NOT (%s > end_date OR %s < start_date)
+                    LIMIT 1
+                """, (start_date, end_date))
+            existing = cr.fetchone()
+
+            if existing:
+                raise osv.except_osv(
+                    'Date Range Overlap',
+                    'A record already exists that overlaps with this date range.'
+                )
 
         return super(data_correction, self).create(cr, uid, vals, context=context)
 
@@ -49,15 +49,15 @@ class data_correction(osv.osv):
             end_date = data_obj.end_date
             cr.execute("""
                 WITH daily_counts AS (
-                    SELECT date, COUNT(*) AS total_tickets, CEIL(COUNT(*) * 0.3) AS sample_size
+                    SELECT date, COUNT(*) AS total_tickets, CEIL(COUNT(*) * 0.7) AS sample_size
                     FROM opd_ticket
-                    WHERE date BETWEEN %s AND %s AND total=300 AND state='confirmed' AND with_doctor_total=0 
+                    WHERE date BETWEEN %s AND %s AND total=500 AND state='confirmed'
                     GROUP BY date
                 ),
                 numbered_tickets AS (
                     SELECT ot.*, ROW_NUMBER() OVER (PARTITION BY ot.date ORDER BY RANDOM()) AS rn
                     FROM opd_ticket ot
-                    WHERE ot.date BETWEEN %s AND %s AND total=300 AND state='confirmed'
+                    WHERE ot.date BETWEEN %s AND %s AND total=500 AND state='confirmed'
                 )
                 SELECT nt.id
                 FROM numbered_tickets nt
@@ -72,20 +72,20 @@ class data_correction(osv.osv):
                 # Now execute your UPDATE query
                 cr.execute("""
                     UPDATE opd_ticket
-                    SET total = 0
+                    SET total = 100
                     WHERE id = %s
                 """, (opd_id,))
 
                 cr.execute("""
                         UPDATE opd_ticket_line
-                        SET name = 65, price = 0, total_amount=0
+                        SET name = 1, price = 100, total_amount=100
                         WHERE opd_ticket_id = %s
                     """, (opd_id,))
 
                 # Step 5: Update the total on the main ticket
                 cr.execute("""
                         UPDATE opd_ticket
-                        SET total = 0
+                        SET total = 100
                         WHERE id = %s
                     """, (opd_id,))
 
@@ -113,9 +113,9 @@ class data_correction(osv.osv):
                     # 4. Update account_move_line: credit lines
                     cr.execute("""
                             UPDATE account_move_line
-                            SET credit = 0,
-                                name = 'Eye Camp',
-                                account_id = 6100
+                            SET credit = 100,
+                                name = 'Medical Officer Fee (New)',
+                                account_id = 6126
                             WHERE credit > 0
                               AND move_id = %s
                         """, (move_id,))
@@ -123,7 +123,7 @@ class data_correction(osv.osv):
                     # 5. Update account_move_line: debit lines
                     cr.execute("""
                             UPDATE account_move_line
-                            SET debit = 0, name=%s
+                            SET debit = 100, name=%s
                             WHERE debit > 0
                               AND move_id = %s
                         """, (opd_name,move_id,))

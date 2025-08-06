@@ -49,7 +49,7 @@ class data_correction(osv.osv):
             end_date = data_obj.end_date
             cr.execute("""
                 WITH daily_counts AS (
-                    SELECT date, COUNT(*) AS total_tickets, CEIL(COUNT(*) * 0.1) AS sample_size
+                    SELECT date, COUNT(*) AS total_tickets, CEIL(COUNT(*) * 0.35) AS sample_size
                     FROM opd_ticket
                     WHERE date BETWEEN %s AND %s AND total=500 AND state='confirmed'
                     GROUP BY date
